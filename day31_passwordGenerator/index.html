@@ -3,9 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="assets/iconfont.css">
+    <link rel="stylesheet" href="index.css">
+    <title>Password Generator</title>
 </head>
 <body>
-    
+    <div class="container">
+        <h1 class="title">Password Generator</h1>
+        <div class="password-container">
+            <input type="text" class="password">
+            <span class="iconfont icon-fuzhi"></span>
+        </div> 
+        <form action="#" id="passwordConfig">
+            <div class="form-item">
+                <label for="length">Password Length</label>
+                <input type="number" max="20" min="0" step="1" id="number" value="20">
+            </div>
+            <div class="form-item">
+                <label for="hasUpper">Include uppercase letters</label>
+                <input type="checkbox" name="hasUpper" id="hasUpper" checked>
+            </div>
+            <div class="form-item">
+                <label for="hasLower">Include lowercase letters</label>
+                <input type="checkbox" name="hasLower" id="hasLower" checked>
+            </div>
+            <div class="form-item">
+                <label for="hasNum">Include numbers</label>
+                <input type="checkbox" name="hasNum" id="hasNum" checked>
+            </div>
+            <div class="form-item">
+                <label for="hasSymol">Include symbols</label>
+                <input type="checkbox" name="hasSymol" id="hasSymol" checked>
+            </div>
+            <button class="btn">Generate Password</button>
+        </form>
+    </div>
 </body>
+<script src="index.js"></script>
 </html>
