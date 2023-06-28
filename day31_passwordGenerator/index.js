@@ -1,5 +1,24 @@
 const btn = document.querySelector('.btn')
 const pwd= document.querySelector('.password')
+const copyBtn = document.querySelector('.icon-fuzhi')
+
+copyBtn.addEventListener('click',function(e){
+    //1. 复制功能老实现
+    // let textarea = document.createElement('textarea')
+    // document.documentElement.appendChild(textarea)
+    // textarea.value = pwd.value
+    // textarea.select();
+    // document.execCommand('copy')
+    // textarea.remove()
+    // alert('Password copied to clipboard!')
+    let pwdValue = pwd.value
+    navigator.clipboard.writeText(pwdValue)
+    .then(()=>{
+        console.log('复制成功')
+    }).catch((error)=>{
+        console.log("复制失败")
+    })
+})
 
 btn.addEventListener('click',function(e){
     e.preventDefault()
@@ -36,7 +55,7 @@ const getRandom = {
     lower:getRandomLower,
     symbol:getRandomSymbol
 }
-
+ 
 function getRandomString(){
     return String.fromCodePoint(Math.floor(Math.random()*26+65))
 }
