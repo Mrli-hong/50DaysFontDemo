@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/iconfont.css" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Note App</title>
+  </head>
+  <body>
+    <button class="add-btn">
+      <span class="iconfont icon-jiahao">add note</span>
+    </button>
+    <div class="main"></div>
+  </body>
+  <script>
+    const main = document.querySelector('.main');
+    const addBtn = document.querySelector('.add-btn');
+    addBtn.addEventListener('click', addNote);
+    let elindex = 0;
+    let lastEdit;
+
+    //添加元素
+    function addNote($event, msg = '') {
+      let noteStr = `
+        <div class="note-header">
+          <div class="operator-case">
+            <button id="edit" data-setindex=${elindex} data-isEdit=false>
+              <span class="iconfont icon-bianji"></span>
+            </button>
+            <button id="delete">
+              <span class="iconfont icon-shanchu"></span>
+            </button>
+          </div>
+        </div>
+        <div class="note-body">${msg}</div>`;
+      let notePageNode = document.createElement('div');
+      notePageNode.classList.add('note-page');
+      notePageNode.innerHTML = noteStr;
+      main.appendChild(notePageNode);
+      addEvent();
+      //清空上次点击的
+      if (
+        lastEdit !== undefined &&
+        document.querySelectorAll('#edit')[lastEdit].dataset.isedit
+      ) {
+        document.querySelectorAll('#edit')[lastEdit].click();
+      }
+      lastEdit = elindex;
+      elindex++;
+      let btn = notePageNode.querySelector('#edit');
+      btn.click();
+    }
+
+    //为新增加的元素绑定事件执行函数
+    function editFunc($event) {
+      const btnEl = $event.target.closest('#edit');
+      let index = btnEl.dataset.setindex;
+      let iseidt = btnEl.dataset.isedit;
+      if (iseidt === 'true') {
+        //关闭操作模式
+        closeEdit(index);
+        console.log(index, '关闭操作模式');
+        btnEl.dataset.isedit = 'false';
+      } else {
+        //开启操作模式
+        openEdit(index);
+        console.log(index, '开启操作模式');
+        btnEl.dataset.isedit = 'true';
+      }
+    }
+
+    function addEvent() {
+      const edits = document.querySelectorAll('#edit');
+      const deletes = document.querySelectorAll('#delete');
+      const pages = document.querySelectorAll('.note-page');
+      if (edits.length === 0) return;
+      edits.forEach((edit) => {
+        edit.onclick = editFunc;
+      });
+    }
+
+    function saveContent($event) {
+      console.log($event);
+      let arrayMessage = [];
+      const notes = document.querySelectorAll('.note-body');
+      notes.forEach((e) => {
+        let textEl = e.querySelector('#text');
+        if (textEl) {
+          arrayMessage.push(textEl.value);
+        } else {
+          arrayMessage.push(e.innerHTML);
+        }
+      });
+      localStorage.setItem('message', JSON.stringify(arrayMessage));
+    }
+
+    function closeEdit(elIndex) {
+      const textEl = document.querySelector('#text');
+      const pageNoteContentEl =
+        document.querySelectorAll('.note-body')[elIndex];
+      pageNoteContentEl.innerHTML = textEl.value;
+      textEl.remove();
+    }
+
+    function openEdit(elIndex) {
+      document.querySelector('#text')?.remove();
+      let editContentElStr =
+        '<textarea class="note-content" name="content" id="text"></textarea>';
+      const pageNoteContentEl =
+        document.querySelectorAll('.note-body')[elIndex];
+      let contentStr = pageNoteContentEl.textContent;
+      pageNoteContentEl.innerHTML = editContentElStr;
+      if (contentStr === '') {
+      } else {
+        document.querySelector('#text').value = contentStr;
+      }
+      document.querySelector('#text').onblur = saveContent;
+      document.querySelector('#text').focus();
+    }
+  </script>
+</html>
