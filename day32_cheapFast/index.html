@@ -1,11 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
     <title>Good,Cheap,Fast</title>
-</head>
-<body>
-    
-</body>
+  </head>
+
+  <body>
+    <h1>How do you want your project to be?</h1>
+    <div class="switch-item">
+      <input type="checkbox" class="ck" name="Good" id="Good" />
+      <label for="Good" class="switch">
+        <i class="circle"></i>
+      </label>
+      <span>Good</span>
+    </div>
+    <div class="switch-item">
+      <input type="checkbox" class="ck" name="Fast" id="Fast" />
+      <label for="Fast" class="switch">
+        <i class="circle"></i>
+      </label>
+      <span>Fast</span>
+    </div>
+    <div class="switch-item">
+      <input type="checkbox" class="ck" name="Bad" id="Bad" />
+      <label for="Bad" class="switch">
+        <i class="circle"></i>
+      </label>
+      <span>Bad</span>
+    </div>
+  </body>
 </html>
+<script>
+  const cks = document.querySelectorAll('.ck');
+  //foreach可以遍历伪数组
+  cks.forEach((ck) => {
+    ck.addEventListener('change', (targetEl) => {
+      if (Bad.checked && Fast.checked && Good.checked) {
+        if (targetEl.target === Bad) {
+          Good.checked = !Good.checked;
+        }
+      }
+    });
+  });
+</script>

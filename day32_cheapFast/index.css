@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+}
+
+.switch-item {
+  display: flex;
+  align-items: center;
+  width: 200px;
+  margin: 10px 0;
+}
+
+.switch-item .ck {
+  visibility: hidden;
+}
+
+.switch-item .switch {
+  position: relative;
+  width: 100px;
+  height: 45px;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 0 10px;
+  background-color: rgb(208, 208, 208);
+  transition: background-color 1s ease;
+}
+
+.switch-item .circle {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #fff;
+  animation: slideOff 0.3s linear forwards;
+}
+
+.ck:checked + .switch {
+  background-color: rgb(142, 68, 173);
+}
+
+.ck:checked + .switch .circle {
+  animation: slideOn 0.3s linear forwards;
+}
+
+@keyframes slideOn {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  50% {
+    transform: translateX(25px) scale(1.2);
+  }
+  100% {
+    transform: translateX(50px) scale(1);
+  }
+}
+
+@keyframes slideOff {
+  0% {
+    transform: translateX(50px) scale(1);
+  }
+  50% {
+    transform: translateX(25px) scale(1.2);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+  }
+}
