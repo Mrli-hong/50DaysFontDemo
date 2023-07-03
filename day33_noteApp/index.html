@@ -18,70 +18,125 @@
     const addBtn = document.querySelector('.add-btn');
     addBtn.addEventListener('click', addNote);
     let elindex = 0;
-    let lastEdit;
+    document.addEventListener('click', function ($event) {
+      let targetEl =
+        $event.target.closest('#edit') ||
+        $event.target.closest('.note-body') ||
+        $event.target.closest('#delete');
+      //如果为null则target?.id返回undefined
+      let targetStr = targetEl?.id || targetEl?.className || 'other';
 
+      switch (targetStr) {
+        case 'edit':
+        case 'note-body':
+          edit(targetEl);
+          break;
+        case 'delete':
+          deleteEl(targetEl);
+          break;
+        default:
+          cancelAllNoteEditMode();
+          saveContent();
+          break;
+      }
+    });
+    loadData();
+    //点击删除操作
+    function deleteEl(targetEl) {
+      let note = getBtnNoteBody(targetEl);
+      let msg = note.noteBody.textContent;
+      //自动更新数据
+      let messageArray = JSON.parse(localStorage.getItem('message'));
+      if (messageArray.includes(msg)) {
+        messageArray.splice(messageArray.indexOf(msg), 1);
+        localStorage.setItem('message', JSON.stringify(messageArray));
+      }
+      note.notePage.remove();
+    }
+    //点击编辑操作
+    function edit(targetEl) {
+      let note = getBtnNoteBody(targetEl);
+      let targetStr = targetEl?.id || targetEl?.className;
+      //点击body的时候二次点击不会失去焦点
+      if (targetStr === 'note-body' && note.isEdit === 'true') {
+        return;
+      }
+      if (note.isEdit === 'true') {
+        cancelNoteBody(note);
+      } else if (note.isEdit === 'false') {
+        editNoteBody(note);
+      }
+    }
+    //获取某个按钮的note
+    function getBtnNoteBody(target) {
+      return {
+        index: target.closest('.note-page').dataset.index,
+        isEdit: target.closest('.note-page').dataset.isedit,
+        noteBody: target.closest('.note-page').querySelector('.note-body'),
+        notePage: target.closest('.note-page'),
+      };
+    }
+    //设置光标到最后一行
+    function setCurseToEnd(textareaEl) {
+      textareaEl.focus();
+      textareaEl.setSelectionRange(
+        textareaEl.value.length,
+        textareaEl.value.length
+      );
+    }
+    //编辑某个noteBody
+    function editNoteBody({ isEdit, notePage, noteBody }) {
+      if (isEdit === 'true') {
+        return;
+      }
+      notePage.dataset.isedit = 'true';
+      let editContentElStr = `<textarea class="note-content" name="content" id="text">${noteBody.textContent}</textarea>`;
+      noteBody.innerHTML = editContentElStr;
+      let textareaEl = noteBody.querySelector('#text');
+      setCurseToEnd(textareaEl);
+    }
+    //取消编辑某个noteBody
+    function cancelNoteBody({ isEdit, notePage, noteBody }) {
+      if (notePage.dataset.isedit === 'false') {
+        return;
+      }
+      notePage.dataset.isedit = 'false';
+      let textEl = noteBody.querySelector('#text');
+      let content = textEl.value;
+      textEl.remove();
+      noteBody.textContent = content;
+    }
     //添加元素
     function addNote($event, msg = '') {
+      cancelAllNoteEditMode();
+      saveContent();
       let noteStr = `
-        <div class="note-header">
-          <div class="operator-case">
-            <button id="edit" data-setindex=${elindex} data-isEdit=false>
-              <span class="iconfont icon-bianji"></span>
-            </button>
-            <button id="delete">
-              <span class="iconfont icon-shanchu"></span>
-            </button>
+          <div class="note-header">
+            <div class="operator-case">
+              <button id="edit">
+                <span class="iconfont icon-bianji"></span>
+              </button>
+              <button id="delete">
+                <span class="iconfont icon-shanchu"></span>
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="note-body">${msg}</div>`;
+          <div class="note-body">${msg}</div>`;
       let notePageNode = document.createElement('div');
+      notePageNode.setAttribute('data-index', elindex++);
+      notePageNode.setAttribute('data-isedit', false);
       notePageNode.classList.add('note-page');
       notePageNode.innerHTML = noteStr;
       main.appendChild(notePageNode);
-      addEvent();
-      //清空上次点击的
-      if (
-        lastEdit !== undefined &&
-        document.querySelectorAll('#edit')[lastEdit].dataset.isedit
-      ) {
-        document.querySelectorAll('#edit')[lastEdit].click();
-      }
-      lastEdit = elindex;
-      elindex++;
-      let btn = notePageNode.querySelector('#edit');
-      btn.click();
     }
-
-    //为新增加的元素绑定事件执行函数
-    function editFunc($event) {
-      const btnEl = $event.target.closest('#edit');
-      let index = btnEl.dataset.setindex;
-      let iseidt = btnEl.dataset.isedit;
-      if (iseidt === 'true') {
-        //关闭操作模式
-        closeEdit(index);
-        console.log(index, '关闭操作模式');
-        btnEl.dataset.isedit = 'false';
-      } else {
-        //开启操作模式
-        openEdit(index);
-        console.log(index, '开启操作模式');
-        btnEl.dataset.isedit = 'true';
-      }
-    }
-
-    function addEvent() {
-      const edits = document.querySelectorAll('#edit');
-      const deletes = document.querySelectorAll('#delete');
-      const pages = document.querySelectorAll('.note-page');
-      if (edits.length === 0) return;
-      edits.forEach((edit) => {
-        edit.onclick = editFunc;
+    //取消所有的note的编辑模式
+    function cancelAllNoteEditMode() {
+      document.querySelectorAll('.note-page').forEach((e) => {
+        cancelNoteBody(getBtnNoteBody(e));
       });
     }
-
-    function saveContent($event) {
-      console.log($event);
+    //保存所有数据
+    function saveContent() {
       let arrayMessage = [];
       const notes = document.querySelectorAll('.note-body');
       notes.forEach((e) => {
@@ -93,30 +148,14 @@
         }
       });
       localStorage.setItem('message', JSON.stringify(arrayMessage));
+      console.log('message', JSON.stringify(arrayMessage));
     }
-
-    function closeEdit(elIndex) {
-      const textEl = document.querySelector('#text');
-      const pageNoteContentEl =
-        document.querySelectorAll('.note-body')[elIndex];
-      pageNoteContentEl.innerHTML = textEl.value;
-      textEl.remove();
-    }
-
-    function openEdit(elIndex) {
-      document.querySelector('#text')?.remove();
-      let editContentElStr =
-        '<textarea class="note-content" name="content" id="text"></textarea>';
-      const pageNoteContentEl =
-        document.querySelectorAll('.note-body')[elIndex];
-      let contentStr = pageNoteContentEl.textContent;
-      pageNoteContentEl.innerHTML = editContentElStr;
-      if (contentStr === '') {
-      } else {
-        document.querySelector('#text').value = contentStr;
-      }
-      document.querySelector('#text').onblur = saveContent;
-      document.querySelector('#text').focus();
+    //数据装载
+    function loadData() {
+      let messageArray = JSON.parse(localStorage.getItem('message'));
+      messageArray.forEach((item) => {
+        addNote(null, item);
+      });
     }
   </script>
 </html>
