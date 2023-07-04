@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>imageCarousel</title>
+  </head>
+  <body>
+    <div class="image-carousel">
+      <div class="carousel-container">
+        <img
+          src="https://img2.baidu.com/it/u=3442533269,4290406331&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1688576400&t=d9110ecd68246c1a78bfc7443916ead7"
+          alt=""
+        />
+        <img
+          src="https://img2.baidu.com/it/u=355673106,1614830790&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1688576400&t=7b0a65802c3d5cab252c381019e5af18"
+          alt="小船"
+        />
+        <img
+          src="https://img1.baidu.com/it/u=2463514011,1142503686&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1688576400&t=82a223ce3ac90975a4079e67828e236a"
+          alt=""
+        />
+        <img
+          src="https://img2.baidu.com/it/u=281565203,1317724122&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1688576400&t=d8f1bb7a174efd1473d8f9fe5bfe7dbf"
+          alt=""
+        />
+      </div>
+      <div class="carousel-footer">
+        <button class="btn pre">pre</button>
+        <button class="btn next">next</button>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  const container = document.querySelector('.carousel-container');
+  const imgs = document.querySelectorAll('img');
+  const pre = document.querySelector('.pre');
+  const next = document.querySelector('.next');
+  const MAX_LENGTH = imgs.length - 1;
+  let curIndex = 0;
+
+  let interval = setInterval(move, 3000);
+
+  pre.addEventListener('click', () => {
+    clearInterval(interval);
+    move('pre');
+    interval = setInterval(move, 3000);
+  });
+
+  next.addEventListener('click', () => {
+    clearInterval(interval);
+    move();
+    interval = setInterval(move, 3000);
+  });
+
+  function move(direction) {
+    if (direction == 'pre') {
+      curIndex = curIndex == 0 ? MAX_LENGTH : --curIndex;
+    } else {
+      curIndex = curIndex == MAX_LENGTH ? 0 : ++curIndex;
+    }
+    container.style.transform = `translate(-${curIndex * 500}px,0)`;
+  }
+</script>
