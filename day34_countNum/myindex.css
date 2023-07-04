@@ -19,9 +19,14 @@ body {
   transform: translate(-50%, -50%);
 }
 
+.counter.hiden {
+  display: none;
+}
+
 .counter .nums {
   text-align: center;
   position: relative;
+  overflow: hidden;
   width: 250px;
   height: 50px;
   font-size: 50px;
@@ -32,4 +37,111 @@ body {
 
 .counter .nums span {
   position: absolute;
+  left: 50%;
+  transform-origin: bottom center;
+  transform: translate(-50%, 0) rotate(180deg);
+}
+
+.counter .nums span.out {
+  /* transform: translate(-50%, 0) rotate(0deg); */
+  animation: goIn 0.5s ease forwards;
+}
+
+@keyframes goOut {
+  0% {
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+  10% {
+    transform: translate(-50%, 0) rotate(20deg);
+  }
+  80% {
+    transform: translate(-50%, 0) rotate(-150deg);
+  }
+  100% {
+    transform: translate(-50%, 0) rotate(-180deg);
+  }
+}
+
+.counter .nums span.in {
+  animation: goOut 0.5s ease forwards;
+}
+
+@keyframes goIn {
+  0% {
+    transform: translate(-50%, 0) rotate(180deg);
+  }
+  10% {
+    transform: translate(-50%, 0) rotate(120deg);
+  }
+  70% {
+    transform: translate(-50%, 0) rotate(-10deg);
+  }
+  100% {
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+}
+
+.final {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.final.hidden {
+  display: none;
+}
+
+.final.show {
+  animation: showFinal 1s ease-in forwards;
+}
+
+.final h4 {
+  font-size: 50px;
+}
+
+.replay {
+  position: relative;
+  font-size: 16px;
+  padding: 10px 10px;
+  border: none;
+  background-color: rgb(52, 152, 219);
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.iconfont::after {
+  position: absolute;
+  content: '\e631';
+  opacity: 0;
+  left: 80px;
+  top: 13px;
+  transition: all 0.5s;
+}
+
+.iconfont {
+  transition: all 0.5s;
+}
+
+.iconfont:hover {
+  padding-right: 30px;
+}
+
+.iconfont:hover::after {
+  left: 70px;
+  opacity: 1;
+}
+
+@keyframes showFinal {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.4);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
 }

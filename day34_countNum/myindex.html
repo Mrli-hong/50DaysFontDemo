@@ -3,16 +3,60 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/iconfont.css" />
     <link rel="stylesheet" href="myindex.css" />
     <title>Animation</title>
   </head>
   <body>
     <div class="counter">
       <div class="nums">
-        <span>3</span>
+        <span class="out">3</span>
+        <span>2</span>
+        <span>1</span>
+        <span>0</span>
       </div>
       <h4>Get Ready</h4>
     </div>
-    <div class="final"></div>
+    <div class="final hidden">
+      <h4>Go</h4>
+      <button class="replay"><span class="iconfont">Replay</span></button>
+    </div>
   </body>
 </html>
+<script>
+  const nums = document.querySelectorAll('.nums span');
+  const counter = document.querySelector('.counter');
+  const final = document.querySelector('.final');
+  const btn = document.querySelector('.replay');
+  btn.addEventListener('click', resetDom);
+  runAnimation();
+
+  function resetDom() {
+    counter.classList.remove('hiden');
+    final.classList.add('hidden');
+    final.classList.remove('show');
+  }
+
+  function runAnimation() {
+    nums.forEach((num, index) => {
+      const nextToLast = nums.length - 1;
+
+      num.addEventListener('animationend', (e) => {
+        //nextElementSibling指相邻的兄弟元素
+        if (e.animationName === 'goOut' && num.nextElementSibling) {
+          num.classList.value = '';
+          num.nextElementSibling.classList.add('out');
+        } else if (e.animationName === 'goIn') {
+          num.classList.remove('out');
+          num.classList.add('in');
+        } else {
+          num.classList.value = '';
+          counter.classList.add('hiden');
+          final.classList.remove('hidden');
+          final.classList.add('show');
+          nums[0].classList.add('out');
+        }
+      });
+    });
+  }
+</script>
