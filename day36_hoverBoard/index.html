@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>HoverBoard</title>
+  </head>
+  <body>
+    <div class="board"></div>
+  </body>
+</html>
+<script>
+  const board = document.querySelector('.board');
+  const animationArray = ['green', 'orange', 'blue', 'red', 'yellow'];
+  init();
+
+  //随机获取一动画名字
+  function getAnimationName() {
+    let index = Math.floor(Math.random() * animationArray.length);
+    return animationArray[index];
+  }
+
+  //初始化小点点
+  function init() {
+    for (let index = 0; index < 600; index++) {
+      createDot();
+    }
+  }
+
+  function mouseMoveEvent($event) {
+    let animationName = getAnimationName();
+    $event.target.classList.add(animationName);
+    setTimeout(() => {
+      $event.target.classList.remove(animationName);
+    }, 1000);
+  }
+
+  function createDot() {
+    let dot = document.createElement('div');
+    dot.classList.add('dot');
+    dot.addEventListener('mouseover', mouseMoveEvent);
+    board.appendChild(dot);
+  }
+</script>
