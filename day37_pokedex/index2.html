@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>测试for中渲染DOM</title>
+  </head>
+  <style>
+    div {
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      margin: 10px;
+    }
+  </style>
+  <body></body>
+</html>
+<script>
+  function createDiv() {
+    let div = document.createElement('div');
+    document.documentElement.appendChild(div);
+  }
+  for (let i = 0; i < 1000; i++) {
+    createDiv();
+  }
+</script>
