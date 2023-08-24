@@ -1,0 +1,28 @@
+body {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	overflow-y: hidden;
+	margin: 0;
+	padding: 0;
+}
+.bgc {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-image: url(./pic/photo-1556745757-8d76bdb6984b.jpg);
+	background-size: cover;
+	filter: blur(20px);
+	z-index: -1;
+}
+
+.password-card {
+	width: 400px;
+	height: 400px;
+	border-radius: 2px;
+	background-color: rgb(255, 255, 255);
+}

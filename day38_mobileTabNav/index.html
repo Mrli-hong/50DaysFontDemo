@@ -1,88 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./assets/iconfont.css" />
-    <link rel="stylesheet" href="index.css" />
-    <title>MobileTabNav</title>
-  </head>
-  <body>
-    <div class="phone">
-      <div class="panel">
-        <img
-          src="https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80"
-          name="blog"
-          class="show"
-        />
-        <img
-          src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
-          name="about"
-        />
-        <img
-          name="home"
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80"
-        />
-        <img
-          name="work"
-          src="https://images.unsplash.com/photo-1471107340929-a87cd0f5b5f3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1266&q=80"
-        />
-      </div>
-      <ul class="tools">
-        <li class="home active">
-          <span class="iconfont icon-a-3d"></span>
-          <span class="font">Home</span>
-        </li>
-        <li class="work">
-          <span class="iconfont icon-auto"></span>
-          <span class="font">work</span>
-        </li>
-        <li class="blog">
-          <span class="iconfont icon-auto-1"></span>
-          <span class="font">blog</span>
-        </li>
-        <li class="about">
-          <span class="iconfont icon-bianji"></span>
-          <span class="font">about</span>
-        </li>
-      </ul>
-    </div>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./assets/iconfont.css" />
+        <link rel="stylesheet" href="index.css" />
+        <title>MobileTabNav</title>
+    </head>
+    <body>
+        <div class="phone">
+            <div class="panel">
+                <img
+                    src="https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80"
+                    name="blog"
+                    class="show"
+                />
+                <img
+                    src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+                    name="about"
+                />
+                <img
+                    name="home"
+                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80"
+                />
+                <img
+                    name="work"
+                    src="https://images.unsplash.com/photo-1471107340929-a87cd0f5b5f3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1266&q=80"
+                />
+            </div>
+            <ul class="tools">
+                <li class="home active">
+                    <span class="iconfont icon-a-3d"></span>
+                    <span class="font">Home</span>
+                </li>
+                <li class="work">
+                    <span class="iconfont icon-auto"></span>
+                    <span class="font">work</span>
+                </li>
+                <li class="blog">
+                    <span class="iconfont icon-auto-1"></span>
+                    <span class="font">blog</span>
+                </li>
+                <li class="about">
+                    <span class="iconfont icon-bianji"></span>
+                    <span class="font">about</span>
+                </li>
+            </ul>
+        </div>
+    </body>
 </html>
 
 <script>
-  const tools = document.querySelector('.tools');
-  const imgs = document.querySelectorAll('img');
-  const lis = document.querySelectorAll('li');
+    const tools = document.querySelector('.tools');
+    const imgs = document.querySelectorAll('img');
+    const lis = document.querySelectorAll('li');
 
-  //移除所有active
-  function removeActive() {
-    lis.forEach((li) => {
-      li.classList.remove('active');
-    });
-  }
-
-  function removeShow() {
-    imgs.forEach((item) => {
-      item.classList.remove('show');
-    });
-  }
-
-  //为工具栏添加点击事件
-  tools.addEventListener('click', function ($event) {
-    let el = $event.target.closest('li');
-    if (!el) {
-      return;
+    //移除所有active
+    function removeActive() {
+        lis.forEach((li) => {
+            li.classList.remove('active');
+        });
     }
-    let name = el.className.split(' ')[0];
-    imgs.forEach((item) => {
-      console.log(item.getAttribute('name'), name);
-      if (item.getAttribute('name') == name) {
-        removeShow();
-        removeActive();
-        el.classList.add('active');
-        item.classList.add('show');
-      }
+
+    function removeShow() {
+        imgs.forEach((item) => {
+            item.classList.remove('show');
+        });
+    }
+
+    //为工具栏添加点击事件
+    tools.addEventListener('click', function ($event) {
+        let el = $event.target.closest('li');
+        if (!el) {
+            return;
+        }
+        let name = el.className.split(' ')[0];
+        imgs.forEach((item) => {
+            console.log(item.getAttribute('name'), name);
+            if (item.getAttribute('name') == name) {
+                removeShow();
+                removeActive();
+                el.classList.add('active');
+                item.classList.add('show');
+            }
+        });
     });
-  });
 </script>

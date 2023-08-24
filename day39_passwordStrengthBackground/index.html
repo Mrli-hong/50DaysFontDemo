@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>password-strength-background</title>
+		<link rel="stylesheet" href="./index.css" />
+	</head>
+	<body>
+		<div class="bgc"></div>
+		<div class="password-card">
+			<div class="password-card-title">
+				<h3>Image Password Strength</h3>
+				<span class="password-card-title-tip">
+					Change the password to see the effect
+				</span>
+			</div>
+			<div class="password-card-content">
+				<form class="form" action="javascript:;">
+					<div class="form-item">
+						<label class="form-lable" for="Email">Email:</label>
+						<input
+							class="form-input"
+							name="Email"
+							type="text"
+							placeholder="Enter Email"
+						/>
+					</div>
+					<div class="form-item">
+						<label class="form-lable" for="Email">Password:</label>
+						<input class="form-input" name="Password" type="password" />
+					</div>
+					<input class="form-submit" type="submit" />
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script>
+	const password = document.querySelector('.form-input[name="Password"]');
+	const bgc = document.querySelector('.bgc');
+	password.addEventListener('input', event => {
+		let blurValue = event.target.value.length;
+		let a = 20 - blurValue > 0 ? 20 - blurValue : 0;
+		console.log(a);
+		bgc.style.filter = `blur(${a}px)`;
+	});
+</script>
