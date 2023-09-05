@@ -9,7 +9,7 @@
 	"insertPragma": false,
 	"endOfLine": "auto",
 	"htmlWhitespaceSensitivity": "ignore",
-	"tabWidth": 2,
+	"tabWidth": 4,
 	"useTabs": true,
 	"vueIndentScriptAndStyle": false,
 	"jsxBracketSameLine": false
